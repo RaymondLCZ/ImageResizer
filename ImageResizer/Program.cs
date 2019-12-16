@@ -11,6 +11,8 @@ namespace ImageResizer
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = Encoding.GetEncoding(950);
+
             string sourcePath = Path.Combine(Environment.CurrentDirectory, "images");
             string destinationPath = Path.Combine(Environment.CurrentDirectory, "output"); ;
 
@@ -20,10 +22,12 @@ namespace ImageResizer
 
             Stopwatch sw = new Stopwatch();
             sw.Start();
-            imageProcess.ResizeImages(sourcePath, destinationPath, 2.0);
+            Task.Run( () => imageProcess.ResizeImagesAsync(sourcePath, destinationPath, 2.0)).Wait();
             sw.Stop();
 
+            Console.WriteLine();
             Console.WriteLine($"花費時間: {sw.ElapsedMilliseconds} ms");
+            Console.ReadKey();
         }
     }
 }
